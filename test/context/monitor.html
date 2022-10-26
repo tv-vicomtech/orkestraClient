@@ -1,0 +1,39 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<script src="/dist/orkestra.umd.js"> </script>
+<orkestra-ui>
+    <user-table id="users" users='user'></user-table>
+    <app-table id="appdata" datos='data'></app-table>
+    <app-timer id="timer" datos="data"></app-timer>
+</orkestra-ui>
+
+
+
+<script>
+
+var app = new OrkestraAPI.Orkestra({url:'https://devstage.traction-project.eu:8083/',agentid:OrkestraAPI.URI.getUrlVar('agent'),channel:OrkestraAPI.URI.getUrlVar('session'),privateChannel:false,profile:'admin',master:true});
+/* Error: it is depending of subscriber, FIXED ! */
+app.ui(OrkestraAPI.Tabs);
+app.readyObservable.subscribe(x => {});
+
+app.userObservable.subscribe(x=>{
+    document.querySelector('user-table').users =  app.getUsers();
+})
+app.appObservable.subscribe(x=>{
+    document.querySelector('app-table').datos =  app.getAppData();
+})
+var mainClock = new OrkestraAPI.ObjectSync();
+let timerController = app.enableSequencer(mainClock,"test","devstage.traction-project.eu");
+timerController.ready.then(()=>{
+    timerController.reset(0.0);
+})
+app.timerObservable.subscribe(timeObject => {
+       
+    document.querySelector('app-timer').datos = JSON.stringify({type:timeObject.type,currentTime:timeObject.target.currentTime,playbackRate:timeObject.target.playbackRate});
+});
+
+</script>

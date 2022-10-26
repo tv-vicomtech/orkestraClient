@@ -1,0 +1,39 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+
+<script src="/dist/orkestra.umd.js"> </script>
+<button id="b_publish" onclick="publish('test2')"> Publish</button>
+<button id="u_publish" onclick="unpublish('test2')">UnPublish</button>
+<form id='change_dev_form' class="form-inline" style='display:none;'>
+  <div class="form-group" style="margin-right: 20px;">
+    <label for="audio-device">Audio device (input):</label>
+    <label for="video-device" style="display:inline-block;margin-left:100px;float:right;">Video device (input):</label>
+
+    <select id="audio-device" class="form-control" style='width:150px;display:inline;' (change)='changeDev()'></select>
+    <select id="video-device" class="form-control" style='width:150px;display:inline-block;float:right;' (change)='changeDev()'></select>
+  </div>
+</form>
+<video id="myvideo" autoplay muted></video>
+<script>
+var PublishJanus  = OrkestraAPI.JanusPublish(document,"cloud.flexcontrol.net",1234);
+console.log(PublishJanus);
+
+function publish(id){
+
+  PublishJanus.init(id);
+}
+function unpublish(id){
+
+  PublishJanus.stop(id);
+
+}
+function changeDev(){
+  this.PublishJanus.changeDev();
+
+}
+
+</script>
+

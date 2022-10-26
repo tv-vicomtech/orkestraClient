@@ -1,0 +1,30 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<button onclick="changeLayout('Mosaic')">Change to Mosaic</button>
+<button onclick="changeLayout('EditLayoutOrder')">Change to EditLayoutOrder</button>
+<orkestra-ui>
+<x-media id="v1" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v2"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v3" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+</orkestra-ui>
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',agentid:"itamayo",channel:'traction6',privateChannel:true,profile:'admin',master:true});
+app.ui(OrkestraAPI.Mosaic);
+app.ui(OrkestraAPI.EditLayoutOrder);
+function changeLayout(name){
+  app.ui().useLayout(name);
+}
+app.ui().useLayout("EditLayoutOrder");
+</script>
+
+
+

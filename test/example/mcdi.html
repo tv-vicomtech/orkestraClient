@@ -1,0 +1,47 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+    var selectedAgent="";
+    let options = {
+                   url:'https://devstage.traction-project.eu/',
+                   agentid:OrkestraAPI.URI.getUrlVar('agent'),
+                   channel:'test',
+                   privateChannel:false,
+                   profile:'admin',
+                   master:true,
+                   debug:false
+                };
+    var app = new OrkestraAPI.Orkestra(options);
+    app.userObservable.subscribe(x=>{
+        document.querySelector('#deviceid').innerHTML = OrkestraAPI.URI.getUrlVar('agent');
+        if (x.evt =="capability_change"){
+            if (x.data.agentid == app.getMyAgentId() && x.data.key == "userData"){
+                if (x.data && x.data.value && x.data.value.pos) {
+                document.querySelector('img').style.top= x.data.value.pos.y;
+                document.querySelector('img').style.left= x.data.value.pos.x;
+                }
+            }
+        }
+    })
+    app.appObservable.subscribe(x=>{
+        render(x);      
+    })
+    function render(x){
+        if (x.data && x.data.value) {
+        document.querySelector('img').style.top= x.data.value.y;
+        document.querySelector('img').style.left= x.data.value.x;
+
+        }
+    }
+    app.readyObservable.subscribe(()=>{
+        app.subscribe('mouse');
+    })
+
+</script>
+<span id="deviceid" style="position: absolute;top:0px;left: 0px;color:red;">Device</span>
+<img src="http://cursor.in/assets/cursor.svg"  width="20px" height="20px" style="position: absolute;top:-20px;left: 0px;">

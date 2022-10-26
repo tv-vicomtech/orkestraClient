@@ -1,0 +1,22 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script src="/dist/orkestra.umd.js"> </script>
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<div id="qrcodeContainer">
+    
+</div>
+<script>
+let app = new OrkestraAPI.Orkestra({url:"https://devstage.traction-project.eu/",channel:"xxx",privateChannel:true,debug:true});
+app.enableQRcode('#qrcodeContainer');
+let a = document.createElement('a');
+a.innerHTML="Private group id: "+app.privGroup;
+a.href="/test/privateSession/index.html?group="+app.privGroup;
+document.body.appendChild(a);
+//Private session
+app.userPrivObservable.subscribe((e)=>{
+    console.log(e);
+})
+</script>

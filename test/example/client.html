@@ -1,0 +1,55 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1.0, minimum-scale=1.0, maximum-scale=1.0">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+
+<title> Flexcontrol: Client</title>
+
+
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<orkestra-ui >
+<x-media id="video1" type="video" input="https://stagem2.traction-project.eu/upload/transcoded/e918e531-6562-4a02-8d2f-2ab06e2ae621.mpd"  config='{"muted":"true"}'></x-media>
+<x-media id="video2"  type="video" input="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd" config='{"muted":"true"}'></x-media>
+<x-media id="video3" input="test" config='{"janusServer":"cloud.flexcontrol.net","muted":"true","profile":"low"}'></x-media>
+<x-media id="video4" input="webcam" config='{"janusServer":"cloud.flexcontrol.net","muted":"true","profile":"low"}'></x-media>
+</orkestra-ui>
+
+<script src="/dist/orkestra.umd.js"> </script>
+<script type="module">
+import {Config} from "/test/example/config/explicit.rule.js";
+import {ConfigFullScreen} from "/test/example/config/fullscreen.config.js";
+setTimeout(()=>{
+var app = new OrkestraAPI.Orkestra(
+    {url:'https://devstage.traction-project.eu/',
+    debug:true,
+    agentid:OrkestraAPI.URI.getUrlVar('agent'),
+    channel:"test11",
+    privateChannel:false,
+    profile:'admin',
+    master:true});
+app.use(OrkestraAPI.Explicit,Config);
+app.use(OrkestraAPI.UserPref,{});
+app.ui(OrkestraAPI.Mosaic);
+app.ui(OrkestraAPI.Divided);
+app.ui(OrkestraAPI.FullScreen,ConfigFullScreen);
+app.ui().useLayout("Divided");
+app.onReady().subscribe((e)=>{
+    document.querySelector('#deviceid').innerHTML = OrkestraAPI.URI.getUrlVar('agent');
+ //app.updateUserData(app.getMyAgentId(),"layout",app.ui().getUsingLayout());
+
+  
+})
+},Math.floor(Math.random() * Math.floor(5)) * 1000);
+
+</script>
+<span id="deviceid" style="position: absolute;top:0px;left: 0px;color:red;">Device</span>
+
+</body>
+</html>

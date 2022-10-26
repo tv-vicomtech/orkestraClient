@@ -1,0 +1,103 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<div>Teachable Machine Image Model</div>
+<button type="button" onclick="model.init()">Start</button>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+<script src="./orkestraModel.js"></script>
+<div id="webcam-container"></div>
+<nav role="navigation" id="menu" style="display:none">
+  <ul>
+    <li><a href="#">1 Play</a></li>
+    <li><a href="#">2 Pause</a></li>
+    <li><a href="#">3 Mute</a></li>
+  </ul>
+</nav>
+<orkestra-ui>
+<x-media id="v1" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" style="width:50%"></x-media>
+<x-media id="v2"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" style="width:50%"></x-media>
+<x-media id="v3" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" style="width:50%"></x-media>
+</orkestra-ui>
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',agentid:"itamayo",channel:'traction6',privateChannel:true,profile:'admin',master:true});
+var model = new OrkestraModel("https://teachablemachine.withgoogle.com/models/-0kpCPS68/");
+function AILayout (){
+ var menu = false;
+ var selected = 0;
+ var time = 0;
+ model.subscribe((e)=>{
+   let data = e.sort((a,b)=>{
+   return b.probability- a.probability;
+   });
+        
+    render(data[0].className,[]);
+  })
+ 
+  var render = function(ev,cmp){
+	  console.log(ev);
+	  switch (ev){
+	  
+	  	case "1":{
+		     if(!menu){
+			document.querySelectorAll('x-media').forEach(l=>{ l.querySelector('video').style.border=""});
+			let menu = document.querySelector('#v1');
+			menu.querySelector('video').style.border="1px solid red";
+			selected = 0;
+		      }
+			else {
+			   document.querySelectorAll('x-media')[selected].querySelector('video').play();
+			}
+
+			break;
+		}
+		case "2":{
+		       if(!menu){
+			document.querySelectorAll('x-media').forEach(l=>{ l.querySelector('video').style.border=""});
+			document.querySelector('#v2').querySelector('video').style.border="1px solid red";
+			selected = 1;
+			break;
+		       }
+			else {
+                           document.querySelectorAll('x-media')[selected].querySelector('video').pause();
+                        }
+			break;
+		}
+	       case "3":{
+		        selected = 2;
+                        document.querySelectorAll('x-media').forEach(l=>{ l.querySelector('video').style.border=""});
+                        document.querySelector('#v3').querySelector('video').style.border="1px solid red";
+		        break;
+                }
+	      case "menu":{
+		      if(Math.abs(time -new Date().getTime())>1000){
+			time = new Date().getTime();
+			document.querySelector("#menu").style.display="block";
+		      	menu = !menu;
+		      	if (!menu)  document.querySelector("#menu").style.display="none";
+			}
+	      		break;
+	      }
+
+
+	  }
+	  document.querySelectorAll('x-media').forEach(l=>{ l.querySelector('video').style.width="400px";l.querySelector('video').style.height="400px";});
+
+  }
+
+  return render;
+
+}
+
+app.ui(AILayout);
+// More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+    // the link to your model provided by Teachable Machine export panel
+</script>

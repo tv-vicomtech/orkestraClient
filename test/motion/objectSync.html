@@ -1,0 +1,114 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+
+<button onclick="stop()">stop</button>
+<button onclick="play()">play</button>
+<button onclick="reset()">reset</button>
+
+<input type="range" id="s1" min="0" max="100" value="0"></input>
+<input type="range" id="s2" min="0" max="100" value="0"></input>
+<input type="range" id="s3" min="0" max="100" value="0"></input>
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+var app = new OrkestraAPI.Orkestra({url:'https://devstage.traction-project.eu/',channel:'traction1',profile:'admin',master:OrkestraAPI.URI.getUrlVar('master') === 'true'});
+var mainClock = new OrkestraAPI.ObjectSync();
+let timerController = app.enableSequencer(mainClock,"test","devstage.traction-project.eu");
+let slides = [{
+    id:"s1",
+    value:0,
+    clock:new OrkestraAPI.ObjectSync()
+},
+{
+    id:"s2",
+    value:0,
+    clock:new OrkestraAPI.ObjectSync()
+},
+{
+    id:"s3",
+    value:0,
+    clock:new OrkestraAPI.ObjectSync()
+}];
+slides.forEach((x)=>{
+    let ctrl = app.syncObjects(x.clock,"test","devstage.traction-project.eu");
+    
+            
+})
+app.timerObservable.subscribe(timeObject => {
+    //this.timevalue = timeObject.target.currentTime;
+    slides.forEach((x)=>{
+            document.querySelector("#"+x.id).value = x.clock.currentTime;
+    })
+    });
+
+ function start(){
+    timerController.play();
+    timerController.reset(1.0);
+  }
+  function stop(){
+    timerController.pause();
+  }
+  function reset(){
+    timerController.reset();
+  }
+  function play(){
+    timerController.play();
+
+  }
+
+setTimeout(()=>{
+    start();
+},2000)
+</script>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+  <template>
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',channel:'traction1',profile:'admin',master:OrkestraAPI.URI.getUrlVar('master') === 'true'});
+var mainClock = new OrkestraAPI.ObjectSync();
+let timerController = app.enableSequencer(mainClock,"test");
+let slides = [{
+    id:"s1",
+    value:0,
+    clock:new OrkestraAPI.ObjectSync()
+},
+{
+    id:"s2",
+    value:0,
+    clock:new OrkestraAPI.ObjectSync()
+},
+{
+    id:"s3",
+    value:0,
+    clock:new OrkestraAPI.ObjectSync()
+}];
+/* Sync all object to same timeObject 'test'*/
+slides.forEach((x)=>{
+    let ctrl = app.syncObjects(x.clock,"test");       
+})
+app.timerObservable.subscribe(timeObject => {
+    //this.timevalue = timeObject.target.currentTime;
+    slides.forEach((x)=>{
+            document.querySelector("#"+x.id).value = x.clock.currentTime;
+    })
+    });
+
+ function start(){
+    timerController.play();
+    timerController.reset(1.0);
+  }
+  function stop(){
+    timerController.pause();
+  }
+  function reset(){
+    timerController.reset();
+  }
+  function play(){
+    timerController.play();
+  }
+
+</template>
+</code-sample>

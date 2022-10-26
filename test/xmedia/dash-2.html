@@ -1,0 +1,63 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module"
+    src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+<script src="/dist/orkestra.umd.js"> </script>
+<link rel="stylesheet" href="/dist/bundle.css">
+</link>
+<orkestra-ui>
+  <x-media id="video1" type="video" input="https://d2pjmukh9qywdn.cloudfront.net/upload/transcoded/678916bb-2599-4239-8869-08b61e5dafb0.mpd" config='{"muted":"false","profile":"low","autoplay":"false"}'></x-media>
+  <dash-video id="video2" controls src="https://d2pjmukh9qywdn.cloudfront.net/upload/transcoded/678916bb-2599-4239-8869-08b61e5dafb0.mpd"
+        options='{"streaming":{"stableBuffer":20,"bufferAtTopQuality":20,"limitByPortal":false},"abr":{"initialBitrate":{"video":100},"maxBitrate":500,"minBitrate":1}}'
+        log="true"></dash-video>
+</orkestra-ui>
+<button id="play">Play</button>
+<button id="pause">Pause</button>
+<style>
+    button {
+        position: absolute;
+        bottom: 2%;
+        left: 25%;
+        transform: translateX(-50%);
+        font-size: 1.3rem;
+        padding: .5rem 1rem;
+    }
+    dash-video {
+        height: 720px;
+        width: 1280px;
+    }
+
+    #pause {
+        display: none;
+    }
+</style>
+
+<script>
+    const app = new OrkestraAPI.Orkestra({ url: "https://cloud.flexcontrol.net/", channel: "xxx" });
+    app.ui(OrkestraAPI.Divided);
+    const video = document.querySelector('x-media')
+    const dashVideo = video.shadowRoot.querySelector('dash-video')
+    const videoDash = dashVideo.shadowRoot.querySelector('video')
+    const buttonPlay = document.querySelector('#play')
+    const buttonPause = document.querySelector('#pause')
+    video.muted = true
+
+    const onPlay = () => {
+        dashVideo.play()
+        buttonPlay.style.display = 'none'
+        buttonPause.style.display = 'block'
+    }
+
+    const onPause = () => {
+        videoDash.pause()
+        buttonPause.style.display = 'none'
+        buttonPlay.style.display = 'block'
+    }
+
+    buttonPlay.addEventListener('click', onPlay)
+    buttonPause.addEventListener('click', onPause)
+
+</script>

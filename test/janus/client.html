@@ -1,0 +1,45 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<x-media
+  type="webrtc"
+  input="test"
+  config='{"janusServer":"stage.traction-project.eu","muted":"true","room":1234,"showBitrate":"true","iframe":true,"buffer":0.22,"showAudioInput":true, "profile": "low"}'
+></x-media>
+
+<div class="buttons">
+  <button aria>Stream 0 (Low)</button>
+  <button>Stream 1 (Medium)</button>
+  <button>Stream 2 (High)</button>
+</div>
+
+<style>
+  .buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+  }
+</style>
+
+<script src="/dist/orkestra.umd.js"></script>
+<script>
+  const addChangeStreamsButtons = () => {
+    const xmediaComponent = document.querySelector("x-media");
+
+    const buttons = document.querySelector(".buttons");
+    if (buttons) {
+      const buttonsStream = buttons.querySelectorAll("button");
+      buttonsStream.forEach((btn, index) => {
+        btn.addEventListener("click", () => {
+          console.log(`Changing to substream ${index}`);
+          xmediaComponent.changeSubStream(xmediaComponent.input, index);
+        });
+      });
+    }
+  };
+
+  addChangeStreamsButtons()
+</script>

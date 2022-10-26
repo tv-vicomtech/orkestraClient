@@ -1,0 +1,86 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+
+<style>
+    #video{
+        width:20% !important;
+    }
+</style>
+<button onclick="stop()">stop</button>
+<button onclick="play()">play</button>
+<button onclick="reset()">reset</button>
+
+<x-media id="v1" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v2"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v3" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',channel:'traction1',profile:'admin',master:OrkestraAPI.URI.getUrlVar('master') === 'true'});
+
+let v1 = document.querySelectorAll('x-media')[0].querySelector('video');
+let v2 = document.querySelectorAll('x-media')[1].querySelector('video');
+let v3 = document.querySelectorAll('x-media')[2].querySelector('video');
+let ctrl = app.syncObjects(v1,"mediaChannel",'cloud.flexcontrol.net:8080');
+app.syncObjects(v2,"mediaChannel",'cloud.flexcontrol.net:8080');
+app.syncObjects(v3,"mediaChannel",'cloud.flexcontrol.net:8080');        
+ function start(){
+    ctrl.play();
+    ctrl.reset(1.0);
+  }
+  function stop(){
+    ctrl.pause();
+  }
+  function reset(){
+    ctrl.reset();
+  }
+  function play(){
+    ctrl.play();
+  }
+
+setTimeout(()=>{
+    start();
+},2000)
+</script>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+  <template>
+    <button onclick="stop()">stop</button>
+<button onclick="play()">play</button>
+<button onclick="reset()">reset</button>
+
+<x-media id="v1" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v2"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v3" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',channel:'traction1',profile:'admin',master:OrkestraAPI.URI.getUrlVar('master') === 'true'});
+
+let v1 = document.querySelectorAll('x-media')[0].querySelector('video');
+let v2 = document.querySelectorAll('x-media')[1].querySelector('video');
+let v3 = document.querySelectorAll('x-media')[2].querySelector('video');
+let ctrl = app.syncObjects(v1,"mediaChannel");
+app.syncObjects(v2,"mediaChannel");
+app.syncObjects(v3,"mediaChannel");        
+ function start(){
+    ctrl.play();
+    ctrl.reset(1.0);
+  }
+  function stop(){
+    ctrl.pause();
+  }
+  function reset(){
+    ctrl.reset();
+  }
+  function play(){
+    ctrl.play();
+  }
+</script>
+  </template>
+</code-sample>

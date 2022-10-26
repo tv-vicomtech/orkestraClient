@@ -1,0 +1,30 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+
+<script src="/dist/orkestra.umd.js"> </script>
+<orkestra-ui>
+    <x-media id="v1" class="xmedia" type="webrtc" input="webcam" config='{"janusServer":"cloud.flexcontrol.net","muted":"true","profile":"low"}'></x-media>
+    <x-media id="v2" type="video" input="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" config='{"muted":"true"}'></x-media>
+    <x-media id="v3" type="image" input="https://www.vicomtech.org/dist/img/logo.svg" config='{"muted":"true"}'></x-media>
+    <x-media id="v4" type="image" input="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd" config='{"muted":"true","profile":"low"}'></x-media>
+    <x-media id="v5" type="image" input="https://media.giphy.com/media/2JeQO72XbrQk4wNdbp/giphy.gif" config='{"muted":"true"}'></x-media>
+    <x-media id="v6" type="image" input="https://www.traction-project.eu/wp-content/uploads/sites/3/2020/02/Logo-cabecera-Traction.png" config='{"muted":"true","profile":"low"}'></x-media>
+    
+</orkestra-ui>
+<script>
+    let options = {
+               url:'https://devstage.traction-project.eu/',
+               agentid:"xx",
+               channel:'test123',
+               privateChannel:false,
+               profile:'admin',
+               master:true,
+               debug:true
+            };
+var app = new OrkestraAPI.Orkestra(options);
+app.ui(OrkestraAPI.Divided);
+</script>

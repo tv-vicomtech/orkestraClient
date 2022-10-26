@@ -1,0 +1,10 @@
+node_modules
+bundle.css
+dist/bundle.css
+dist/main.js.orig
+package-lock.json
+package.json.orig
+src/main.js.orig
+src/orkestra/ui/UI.js.orig
+src/wcs/xmedia/xmedia.js.orig
+dist/main.js.map

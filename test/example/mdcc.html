@@ -1,0 +1,64 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script src="/dist/orkestra.umd.js"> </script>
+<h2 style="color:red">User List:</h2>
+<select id="users" size=5 onchange="selectAgent(this)"></select>
+<script>
+    var selectedAgent="";
+    function selectAgent(ev){
+         selectedAgent = ev.value
+    }
+    let options = {
+                   url:'https://devstage.traction-project.eu/',
+                   agentid:OrkestraAPI.URI.getUrlVar('agent'),
+                   channel:'test',
+                   privateChannel:false,
+                   profile:'admin',
+                   master:true,
+                   debug:false
+                };
+    var app = new OrkestraAPI.Orkestra(options);
+    var log = OrkestraAPI.Logger.getLogger("MDCC");
+
+    app.userObservable.subscribe(x=>{
+        render();
+        log.info(x);
+    })
+    
+    function render(){
+        document.querySelector('#deviceid').innerHTML = OrkestraAPI.URI.getUrlVar('agent');
+        let usersDiv = document.querySelector('#users');
+        let usrs = JSON.parse(app.getUsers())
+        usrs.forEach((us)=>{
+            let opt = document.createElement('option');
+            opt.id = "ag_"+us[1].agentid;
+            opt.value = us[1].agentid;
+            opt.innerHTML = us[1].agentid;
+            if (!usersDiv.querySelector('#'+opt.id)) usersDiv.appendChild(opt);
+        });
+        let opt = document.createElement('option');
+            opt.id = "all";
+            opt.value = "all";
+            opt.innerHTML = "all";
+            if (!usersDiv.querySelector('#'+opt.id)) usersDiv.appendChild(opt);
+    }
+    document.addEventListener('mousemove',(e)=>{
+        log.info(e);
+        let x = e.screenX;
+        let y = e.screenY;
+        if (selectedAgent!=""){
+            if (selectedAgent==="all"){
+                app.setAppAttribute('mouse',{x:x,y:y});
+            }
+            else {
+                app.setUserContextData(selectedAgent,"userData",{type:'mouse',pos:{x:x,y:y}});
+
+            }
+        }
+    })
+
+</script>
+<span id="deviceid" style="position: absolute;top:0px;left: 0px;color:red;">Device</span>

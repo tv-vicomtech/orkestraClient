@@ -1,0 +1,107 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+
+<script src="/dist/orkestra.umd.js"> </script>
+<script src="https://zvakanaka.github.io/view-json/view-json.js"></script>
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+<script>
+        let options = {
+               url:'https://devstage.traction-project.eu/',
+               agentid:"xx",
+               channel:'te2st',
+               privateChannel:false,
+               profile:'admin',
+               master:true,
+               debug:false
+            };
+var app = new OrkestraAPI.Orkestra(options);
+app.useServiceHub(app.options.channel+"_mediaServs").then (()=>{
+    alert("services:"+app.getServices(app.options.channel+"_mediaServs"));
+});
+function SlowConnection(){
+    document.querySelector('view-json').innerHTML=` {
+        "bitrate":100000,
+        "volume":1,
+        "inputMic":1,
+        "noiseS":true,
+        "echoC":false,
+        "gainC":false,
+        "simulcast":false,
+        "audio":true,
+        "video":true
+   }`
+   app.useServiceHub(app.options.channel+"_mediaServs").then(() => {
+                let data1 =  {
+                    "bitrate":100000,
+                    "volume":1,
+                    "inputMic":1,
+                    "noiseS":true,
+                    "echoC":false,
+                    "gainC":false,
+                    "simulcast":false,
+                    "audio":true,
+                    "video":true
+                 };
+                let data = { "io": "in", data: data1 };
+                let service = app.getServices(app.options.channel+"_mediaServs");
+                app.sendServiceData(service,data);
+
+      });
+}
+</script>
+<a href="#" onclick="SlowConnection()">SlowConnection</a> 
+
+<view-json>
+    {
+        "bitrate":1000000,
+        "volume":1,
+        "inputMic":1,
+        "noiseS":true,
+        "echoC":false,
+        "gainC":false,
+        "simulcast":false,
+        "audio":true,
+        "video":true
+   }
+  </view-json>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+    <template>
+      <script>
+        app.useServiceHub(app.options.channel+"_mediaServs").then (()=>{
+    alert("services:"+app.getServices(app.options.channel+"_mediaServs"));
+});
+function SlowConnection(){
+    document.querySelector('view-json').innerHTML=` {
+        "bitrate":100000,
+        "volume":1,
+        "inputMic":1,
+        "noiseS":true,
+        "echoC":false,
+        "gainC":false,
+        "simulcast":false,
+        "audio":true,
+        "video":true
+   }`
+   app.useServiceHub(app.options.channel+"_mediaServs").then(() => {
+                let data1 =  {
+                    "bitrate":100000,
+                    "volume":1,
+                    "inputMic":1,
+                    "noiseS":true,
+                    "echoC":false,
+                    "gainC":false,
+                    "simulcast":false,
+                    "audio":true,
+                    "video":true
+                 };
+                let data = { "io": "in", data: data1 };
+                let service = app.getServices(app.options.channel+"_mediaServs");
+                app.sendServiceData(service,data);
+
+      });
+      </script>
+    </template>
+  </code-sample>

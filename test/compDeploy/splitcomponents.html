@@ -1,0 +1,146 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+
+<div style="position: absolute;top:0px;left:0px;z-index: 9999;">
+<button onclick="sendComponents(0)"> Timeline1</button>
+<button onclick="sendComponents(4)"> Timeline2</button>
+<button onclick="sendComponents(5)"> Timeline3</button>
+<button onclick="prevFrame()"> < Prev Frame</button>
+<button onclick="nextFrame(5)"> Next Frame ></button>
+</div>
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<orkestra-ui style="height:50%">
+<x-media id="v0" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v1"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="v2" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+</orkestra-ui>
+
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',debug:true,agentid:"itamayo",channel:'traction6',privateChannel:true,profile:'admin',master:true});
+app.transitions(OrkestraAPI.Simple(),{time:1500});
+app.use(OrkestraAPI.Bytimeline,{'listenEvent':'timeline','data':'[]'});
+var mainClock = new OrkestraAPI.ObjectSync();
+let timerController = app.enableSequencer(mainClock,"test","stage.traction-project.eu");
+app.ui(OrkestraAPI.Divided);
+
+/* testing helper */
+function sendComponents(n){
+
+     switch (n){
+         case 0:app.setAppAttribute("timeline",{type:"timeline","applyTo":"all",componentStatus:[{
+         "id":"v0",
+         "intervals":[{
+               "init":0,
+                "end":5
+         }],
+         "slots":[1,1,1,1,1,0,0,0],
+         "mutedScenes":["muted","muted","muted"],
+         "order":[1,4,5,6] 
+          }]});
+         break;
+         case 4:app.setAppAttribute("timeline",{type:"timeline","applyTo":"all",componentStatus:[{
+         "id":"v1",
+         "intervals":[{
+               "init":0,
+                "end":8
+         }],
+         "slots":[1,1,1,1,1,1,1,0],
+         "mutedScenes":["muted","muted","muted"],
+         "order":[2,3,5,6]  
+         
+         
+          }]});break;
+         case 5:app.setAppAttribute("timeline",{type:"timeline","applyTo":"all",componentStatus:[{
+         "id":"v2",
+         "intervals":[{
+               "init":9,
+                "end":10
+         }],
+         "slots":[0,0,0,0,0,0,0,1],
+          "mutedScenes":["muted","muted","muted"],
+          "order":[1,3,5,6] 
+         
+         
+          }]});break;
+     }
+
+}
+function nextFrame(){
+    timerController.seek(timerController.currentTime+1)
+}
+function prevFrame(){
+    timerController.seek(timerController.currentTime-1)
+}
+timerController.ready.then(()=>{
+    timerController.reset(0.0);
+
+})
+
+</script>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+    <template>
+        <orkestra-ui style="height:50%">
+            <x-media id="0" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+            <x-media id="1"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+            <x-media id="2" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+        </orkestra-ui>
+        <script>
+        var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',debug:true,agentid:"itamayo",channel:'traction6',privateChannel:true,profile:'admin',master:true});
+        /* ByTimeline is a plugin who decides howto distribute a webcomponent on differente devices based on time*/
+        app.use(OrkestraAPI.Bytimeline,{'listenEvent':'timeline','data':'[]'});
+        var mainClock = new OrkestraAPI.ObjectSync();
+        /* Enable sequencer allows to app to have same clock to sincronize times from different devices*/
+        let timerController = app.enableSequencer(mainClock,"mainClock");
+        app.ui(OrkestraAPI.Divided);
+        function nextFrame(){
+          timerController.seek(timerController.currentTime+1)
+        }
+        function prevFrame(){
+         timerController.seek(timerController.currentTime-1)
+        }
+        function sendComponents(n){
+            switch (n){
+                case 0:app.setAppAttribute("timeline",{type:"timeline","applyTo":"all",componentStatus:[{
+                "id":0,
+                "intervals":[{
+                    "init":0,
+                    "end":5
+                }],
+                "slots":[1,1,1,1,1,0,0,0],
+                "mutedScenes":["muted","muted","muted"] 
+                }]});
+                break;
+                case 4:app.setAppAttribute("timeline",{type:"timeline","applyTo":"all",componentStatus:[{
+                "id":1,
+                "intervals":[{
+                    "init":6,
+                    "end":8
+                }],
+                "slots":[0,0,0,0,0,1,1,0],
+                "mutedScenes":["muted","muted","muted"] 
+                
+                
+                }]});break;
+                case 5:app.setAppAttribute("timeline",{type:"timeline","applyTo":"all",componentStatus:[{
+                "id":2,
+                "intervals":[{
+                    "init":9,
+                    "end":10
+                }],
+                "slots":[0,0,0,0,0,0,0,1],
+                "mutedScenes":["muted","muted","muted"] 
+                
+                
+                }]});break;
+            }
+    }
+    </script>
+        </template>
+</code-sample>

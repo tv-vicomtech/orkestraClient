@@ -1,0 +1,58 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<style>
+    a{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: smaller;
+    color: #e0e0e0;
+    background-color: #404040;
+    border: thin solid black;
+    margin-right: 2px;
+    padding: 0px 2px;
+    }  
+</style>
+<a href="#" onclick="changeIframe('mdc')">MultiDevice connections</a> 
+<a href="#"  onclick="changeIframe('multimedia')"> Multimedia</a>
+<a href="#"  onclick="changeIframe('layout')"> Layout</a> 
+<a href="#"  onclick="changeIframe('assignation')">Components Assignation</a>
+<a href="#" onclick="changeIframe('motion')">Syncrhonization</a> 
+<a href="#" onclick="changeIframe('webrtc')"> WebRtc</a>
+<a href="#" onclick="changeIframe('iasas')"> Interaction as a Service</a>
+<script>
+    function changeIframe(type){
+        switch (type){
+            case "mdc":{
+                document.querySelector('iframe').src = "./mdc.html"
+                break;
+            }
+            case "multimedia":{
+                document.querySelector('iframe').src = "./multimedia.html"
+                break;
+            }
+            case "layout":{
+                document.querySelector('iframe').src = "./layout.html"
+                break;
+            }
+            case "assignation":{
+                document.querySelector('iframe').src = "./assignation.html"
+                break;
+            }
+            case "webrtc":{
+                document.querySelector('iframe').src = "./webrtc.html"
+                break;
+            }
+            case "iasas":{
+                document.querySelector('iframe').src = "./iasas.html"
+                break;
+            }
+            case "motion":{
+                document.querySelector('iframe').src = "./motion.html"
+                break;
+            }
+        }
+    }
+</script>
+<iframe src="" width="100%" height="100%"></iframe>

@@ -1,0 +1,244 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+
+<div style="position: absolute;top:0px;left:0px;z-index: 9999;">
+<button onclick="sendSimulation(1)"> sendSimulation1</button>
+<button onclick="sendSimulation(2)"> sendSimulation2</button>
+<button onclick="sendSimulation(3)"> sendSimulation3</button>
+</div>
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<orkestra-ui style="height:50%">
+<x-media id="0" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="1"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+<x-media id="2" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+</orkestra-ui>
+
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+var startTime, endTime;
+var downloadSize = 679233;
+var download = new Image();
+function checkBandwidth(){
+var imageAddr = "https://homepages.cae.wisc.edu/~ece533/images/tulips.png" + "?n=" + Math.random();
+
+
+download = new Image();
+download.onload = function () {
+    endTime = (new Date()).getTime();
+    showResults();
+}
+startTime = (new Date()).getTime();
+download.src = imageAddr;
+}
+function showResults() {
+    var duration = Math.round((endTime - startTime) / 1000);
+    var bitsLoaded = downloadSize * 8;
+    var speedBps = Math.round(bitsLoaded / duration);
+    var speedKbps = (speedBps / 1024).toFixed(2);
+    var speedMbps = (speedKbps / 1024).toFixed(2);
+    alert("Your connection speed is: \n" + 
+           speedBps + " bps\n"   + 
+           speedKbps + " kbps\n" + 
+           speedMbps + " Mbps\n" );
+}
+setInterval(checkBandwidth,5000);
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',debug:false,channel:'testAdaptive',privateChannel:false,profile:'admin',master:true});
+
+app.ui(OrkestraAPI.Divided);
+/* Get stream adaptation ouput from server */
+app.useServiceHub("adaptiveStream").then(()=>{
+  app.subscribeToService('streamAdaptation',(evt)=>{
+    console.log(evt);
+    document.body.innerHTML += "<p> Receiving streamAdaptation OUPUT"+JSON.stringify(evt)+"</p>";
+  },"out")
+});
+/* testing helper */
+function sendSimulation(n){
+   let users = [];
+    switch (n){
+        case 1:
+         users = [
+          {
+             name:"user1",
+             components:[
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+             ],
+             profile:"desktop"
+
+          }];
+        break;
+        case 2:
+         users = [
+          {
+             name:"user1",
+             components:[
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+             ],
+               profile:"desktop"
+
+          },
+          {
+             name:"user2",
+             components:[
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+             ],
+              profile:"desktop"
+          }
+        ];
+        break;
+        case 3:
+         users = [
+          {
+             name:"user1",
+             components:[
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+             ],
+            profile:"tablet"
+
+          },
+          {
+             name:"user2",
+             components:[
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+             ],
+            profile:"desktop"
+
+          },
+          {
+             name:"user3",
+             components:[
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+               {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+             ],
+            profile:"mobile"
+          }
+        ];
+        break;
+    }
+  sendInfo(users);
+}
+function sendInfo(data){
+   data = {
+    io: "in",
+    users:data,
+    timestamp:new Date().getTime()
+
+  }
+  app.sendServiceData('streamAdaptation',data);
+  document.body.innerHTML += "<p> Sending streamAdaptive INPUT"+JSON.stringify(data)+"</p>";
+
+}
+
+
+</script>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+    <template>
+        <orkestra-ui style="height:50%">
+            <x-media id="0" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+            <x-media id="1"  type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+            <x-media id="2" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+        </orkestra-ui>
+        <script>
+
+        var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',debug:false,channel:'testAdaptive',privateChannel:false,profile:'admin',master:true});
+
+        app.ui(OrkestraAPI.Divided);
+        /* Get stream adaptation ouput from server */
+        app.useServiceHub("adaptiveStream").then(()=>{
+          app.subscribeToService('streamAdaptation',(evt)=>{
+            console.log(evt);
+            document.body.innerHTML += "<p> Receiving streamAdaptation OUPUT"+JSON.stringify(evt)+"</p>";
+          },"out")
+        });
+        /* testing helper */
+        function sendSimulation(n){
+           let users = [];
+            switch (n){
+                case 1:
+                 users = [
+                  {
+                     name:"user1",
+                     components:[
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+                     ],
+                     profile:"desktop"
+
+                  }];
+                break;
+                case 2:
+                 users = [
+                  {
+                     name:"user1",
+                     components:[
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+                     ],
+                       profile:"desktop"
+
+                  },
+                  {
+                     name:"user2",
+                     components:[
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+                     ],
+                      profile:"desktop"
+                  }
+                ];
+                break;
+                case 3:
+                 users = [
+                  {
+                     name:"user1",
+                     components:[
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+                     ],
+                    profile:"tablet"
+
+                  },
+                  {
+                     name:"user2",
+                     components:[
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+                     ],
+                    profile:"desktop"
+
+                  },
+                  {
+                     name:"user3",
+                     components:[
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"},
+                       {type:"media",url:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
+                     ],
+                    profile:"mobile"
+                  }
+                ];
+                break;
+            }
+          sendInfo(users);
+        }
+        function sendInfo(data){
+           data = {
+            io: "in",
+            users:data,
+            timestamp:new Date().getTime()
+
+          }
+          app.sendServiceData('streamAdaptation',data);
+          document.body.innerHTML += "<p> Sending streamAdaptive INPUT"+JSON.stringify(data)+"</p>";
+
+        }
+    </script>
+        </template>
+</code-sample>

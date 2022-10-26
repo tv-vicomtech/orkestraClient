@@ -1,0 +1,44 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script src="/dist/orkestra.umd.js"></script>
+<script
+  type="module"
+  src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"
+></script>
+
+<webrtc-publisher
+  style="width: 100%; height: 100%"
+  input="test"
+  config='{"janusServer":"stage.traction-project.eu","room":1234}'
+  options='{"audio":true,"video":true,"echoC":false,"noiseS":false,"simulcast":true,"showAudioInput":true}'
+>
+</webrtc-publisher>
+<script>
+  function publish(id) {
+    document.querySelector("webrtc-publisher").publish();
+  }
+  function unpublish(id) {
+    PublishJanus.stop(id);
+  }
+  function changeDev() {
+    this.PublishJanus.changeDev();
+  }
+  setTimeout(() => {
+    document.querySelector("webrtc-publisher").showConfig();
+  }, 2000);
+</script>
+
+<code-sample style="position: absolute; top: 0%; left: 75%; z-index: 999">
+  <template>
+    <script src="/dist/orkestra.umd.js"></script>
+    <webrtc-publisher
+      input="test"
+      config='{"janusServer":"cloud.flexcontrol.net","room":1234}'
+      options='{"audio":true,"video":true,"echoC":false,"simulcast":false}'
+    >
+    </webrtc-publisher>
+  </template>
+</code-sample>

@@ -1,0 +1,59 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<button style="position:absolute;z-index:9999;top:200px;" onclick='exec("play")'>Play</button>
+<button style="position:absolute;z-index:9999;left:100px;top:200px;" onclick='exec("reset")'>reset</button>
+<button style="position:absolute;z-index:9999;left:200px;top:200px;" onclick='exec("pause")'>pause</button>
+<script src="/dist/orkestra.umd.js"> </script>
+<input type="range" id="s3" min="0" max="100" value="0"></slider>
+<script>
+    let options = {
+               url:'https://devstage.traction-project.eu/',
+               agentid:Math.random(),
+               channel:'test12',
+               privateChannel:false,
+               profile:'admin',
+               master:true,
+               debug:false
+            };
+
+var app = new OrkestraAPI.Orkestra(options);
+var mainClock = new OrkestraAPI.ObjectSync();
+window.ctrl = app.enableSequencer(mainClock,"mediaChannel","devstage.traction-project.eu:8080");
+app.timerObservable.subscribe(timeObject => {
+    //this.timevalue = timeObject.target.currentTime;
+    
+            document.querySelector("input").value = timeObject.target.currentTime;
+
+    });   
+
+document.querySelector('input').addEventListener('change',(e)=>{
+    console.log(e);
+    ctrl.seek(parseInt(e.srcElement.value));
+    ctrl.play();
+})
+function exec(ev){
+    switch (ev){
+        case "play":{
+            ctrl.play();
+            console.log("play");
+            break;
+        }
+        case "pause":{
+            ctrl.pause();
+            console.log("pause");
+            break;
+        }
+        case "reset":{
+            ctrl.reset(1.0);
+            console.log("reset");
+            break;
+        }
+    }
+
+}
+
+</script>

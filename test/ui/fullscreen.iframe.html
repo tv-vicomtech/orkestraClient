@@ -1,0 +1,28 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+
+
+<orkestra-ui>
+<x-media id="video3" type="video" input="test" config='{"janusServer":"stage.traction-project.eu","muted":"true","room":1234}'></x-media>
+</orkestra-ui>
+<script src="./fullscreen.config.js"></script>
+
+<script src="/dist/orkestra.umd.js"> </script>
+<script>
+
+var app = new OrkestraAPI.Orkestra(
+  {url:'https://devstage.traction-project.eu/',agentid:OrkestraAPI.URI.getUrlVar('agent'),
+  channel:'traction11',
+  privateChannel:false,
+  profile:'admin',
+  master:true});
+app.ui(OrkestraAPI.FullScreen,Config);
+app.readyObservable.subscribe(()=>{
+  app.setAppAttribute("layout",{applyTo:"all",layout:"FullScreen",cmp:"video3",status:"on"});
+})
+
+
+</script>

@@ -1,0 +1,76 @@
+{
+  "_args": [
+    [
+      "git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#develop",
+      "/home/VICOMTECH/itamayo/projects/traction/traction_RealTimePerformanceEngine/orkestra-control"
+    ]
+  ],
+  "_from": "git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#develop",
+  "_id": "orkestraLib@git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#122776698c18cd0b5c7cc5947e6b26e8345ab7e1",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/orkestraLib",
+  "_phantomChildren": {
+    "tslib": "1.11.1"
+  },
+  "_requested": {
+    "type": "git",
+    "raw": "git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#develop",
+    "rawSpec": "git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#develop",
+    "saveSpec": "git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#develop",
+    "fetchSpec": "https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git",
+    "gitCommittish": "develop"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#122776698c18cd0b5c7cc5947e6b26e8345ab7e1",
+  "_spec": "git+https://e0b9df60cd38758954e0f3c15873a9d45514d65d:x-oauth-basic@github.com/tv-vicomtech/Orkestralib.git#develop",
+  "_where": "/home/VICOMTECH/itamayo/projects/traction/traction_RealTimePerformanceEngine/orkestra-control",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@kuscamara/code-sample": "latest",
+    "babel-polyfill": "latest",
+    "chalk": "^4.1.1",
+    "custom-video-element": "^0.0.1",
+    "event-target-shim": "latest",
+    "loglevel": "git+https://github.com/itamayo/loglevel.git",
+    "rxjs": "latest",
+    "socket.io": "4.1.2",
+    "socket.io-client": "^4.1.2",
+    "underscore": "^1.13.1",
+    "web-dialog": "0.0.11",
+    "webrtc-adapter": "latest"
+  },
+  "deprecated": false,
+  "description": "Orkestra library",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "babel-core": "latest",
+    "babel-preset-es2015": "latest",
+    "css-loader": "^3.6.0",
+    "http-server": "latest",
+    "mocha": "latest",
+    "rollup": "^2.50.5",
+    "rollup-plugin-css-only": "^2.1.0",
+    "style-loader": "^1.2.1",
+    "webpack": "5.39.0",
+    "webpack-cli": "4.7.2"
+  },
+  "license": "MIT",
+  "main": "dist/orkestra.cjs.js",
+  "module": "src/main.js",
+  "name": "orkestraLib",
+  "scripts": {
+    "build": " webpack --mode production",
+    "build-web": "rollup -c -w rollup.config.js",
+    "server": "http-server . -S -C ./certs/cert.pem -K ./certs/key.pem -o",
+    "start": "npm run build-web && webpack --watch & npm run server",
+    "build:dev": "webpack --mode development && npm run build-web",
+    "test": "mocha --require babel-core/register",
+    "watch": "webpack --watch "
+  },
+  "version": "1.0.1"
+}

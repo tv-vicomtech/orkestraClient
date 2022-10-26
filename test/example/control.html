@@ -1,0 +1,170 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1.0, minimum-scale=1.0, maximum-scale=1.0">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+
+<title> Flexcontrol: Control</title>
+
+
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+
+<script src="/test/example/rewriteListeners.js"></script>
+<script src="/dist/orkestra.umd.js"> </script>
+<script type="module">
+var streams = [];
+var app = new OrkestraAPI.Orkestra(
+    {url:'https://devstage.traction-project.eu/',
+    debug:false,
+    channel:"test11",
+    privateChannel:false,
+    profile:'controller',
+    master:true});
+
+app.userObservable.subscribe((evt)=>{
+    if (evt.evt ==="agent_left"){
+      let agentid = evt.data.agentid;
+      let div = document.querySelector("#agt_" +agentid);
+      document.body.removeChild(div);
+    }
+   let users = JSON.parse(app.getUsers());
+   let filteredUsers = users.filter((usr)=> {return usr[1].profile!=="controller"});
+   filteredUsers.forEach((usr)=>{
+      let div = document.querySelector("#agt_" +usr[1].agentid) !== null ? document.querySelector("#agt_" +usr[1].agentid) :document.createElement('div');
+      div.id ="agt_" +usr[1].agentid;
+      div.innerHTML = usr[1].agentid;
+      div.style.color="white";
+      let bt1Layout = document.createElement('button');
+          bt1Layout.innerHTML ="Mosaic";
+          bt1Layout.addEventListener('click',(e)=>{
+              app.updateUserData(usr[1].agentid,"layout","Mosaic");
+
+          });
+          let bt2Layout = document.createElement('button');
+          bt2Layout.innerHTML ="Divided";
+          bt2Layout.addEventListener('click',(e)=>{
+              app.updateUserData(usr[1].agentid,"layout","Divided");
+
+          });
+      if (usr[1].capacities.componentsStatus && usr[1].capacities.componentsStatus.componentsStatus)
+      usr[1].capacities.componentsStatus.componentsStatus.forEach((c)=>{
+          let container = document.createElement('div');
+          let bt1Show = document.createElement('button');
+          bt1Show.innerHTML ="Show"+c.cmp;
+          bt1Show.addEventListener('click',(e)=>{
+              app.updateComponentStatus(usr[1].agentid,c.cmp,{cmd:"show",cmp:c.cmp,value:true})
+          });
+          
+          let streamSelect = document.createElement("select");
+          streamSelect.id = "select_"+usr[1].agentid +"_"+c.cmp;
+          container.appendChild(streamSelect);
+          container.appendChild(bt1Show);
+          let bt1Hide = document.createElement('button');
+          bt1Hide.innerHTML ="hide "+c.cmp;
+          bt1Hide.addEventListener('click',(e)=>{
+              app.updateComponentStatus(usr[1].agentid,c.cmp,{cmd:"show",cmp:c.cmp,value:false})
+          });
+          container.appendChild(bt1Hide);
+       
+          let fullscreen = document.createElement('button');
+          fullscreen.innerHTML ="FS";
+          fullscreen.addEventListener('click',(e)=>{
+            // SEND TO ALL
+          //    app.updateUserData(usr[1].agentid,"layout","FullScreen_"+c.cmp+"_on");
+              app.setAppAttribute("layout",{applyTo:"all",layout:"FullScreen",cmp:c.cmp,status:"on"});
+              //app.updateComponentStatus(agentid,cmp,{cmd:"stream",cmp:cmp,value:sel.options[sel.selectedIndex].value})
+
+          });
+          let ownfullscreen = document.createElement('button');
+          ownfullscreen.innerHTML ="ownfullscreen";
+          ownfullscreen.addEventListener('click',(e)=>{
+            // SEND TO ALL
+              app.updateUserData(usr[1].agentid,"layout","FullScreen_"+c.cmp+"_on");
+            //  app.setAppAttribute("layout",{applyTo:"all",layout:"FullScreen_"+c.cmp+"_on"});
+              //app.updateComponentStatus(agentid,cmp,{cmd:"stream",cmp:cmp,value:sel.options[sel.selectedIndex].value})
+
+          });
+          let unfullscreen = document.createElement('button');
+          unfullscreen.innerHTML ="unFS";
+          unfullscreen.addEventListener('click',(e)=>{
+
+            //  app.updateUserData(usr[1].agentid,"layout","FullScreen_"+c.cmp+"_off");
+            app.setAppAttribute("layout",{applyTo:"all",layout:"FullScreen",cmp:c.cmp,status:"off"});
+
+              //app.updateComponentStatus(agentid,cmp,{cmd:"stream",cmp:cmp,value:sel.options[sel.selectedIndex].value})
+
+          });
+          let ownunfullscreen = document.createElement('button');
+          ownunfullscreen.innerHTML ="ownunfullscreen";
+          ownunfullscreen.addEventListener('click',(e)=>{
+
+              app.updateUserData(usr[1].agentid,"layout","FullScreen_"+c.cmp+"_off");
+            //  app.setAppAttribute("layout",{applyTo:"all",layout:"FullScreen_"+c.cmp+"_off"});
+              //app.updateComponentStatus(agentid,cmp,{cmd:"stream",cmp:cmp,value:sel.options[sel.selectedIndex].value})
+
+          });
+          container.appendChild(ownfullscreen);
+          container.appendChild(ownunfullscreen);
+          container.appendChild(fullscreen);
+          container.appendChild(unfullscreen);
+          div.appendChild(container);
+          // div.appendChild(bt1Show);
+          // div.appendChild(bt1Hide);
+           div.appendChild(bt1Layout);
+           div.appendChild(bt2Layout);
+         
+          // div.appendChild(ownfullscreen);
+          // div.appendChild(ownunfullscreen);
+
+      })
+      document.body.appendChild(div);
+   });
+
+});
+/* Input: context of video source, janusServiceUrl * /
+/* Output JanusClient instance */
+window.FlexJanus = OrkestraAPI.JanusClient(this,"cloud.flexcontrol.net",1234);
+/* will start listing for events from webrtc channel */
+FlexJanus.init(this);
+/* Listen for existing streams */
+
+document.addEventListener('newStream',newStreamListener.bind(this));
+
+function newStreamListener(evt){
+  streams.push(evt.detail);
+}
+setInterval(()=>{
+  let allSelect = document.querySelectorAll('select');
+  allSelect.forEach((sel)=>{
+      sel.innerHTML = "";
+     if (sel.removeEventListener) sel.removeEventListeners('change');
+      let opt = document.createElement("option");
+      opt.disabled =true;
+      opt.selected = true;
+      opt.innerHTML = "Streams";
+      sel.appendChild(opt);
+      sel.addEventListener('change',(e)=>{
+          let id = e.srcElement.id;
+          let agentid = id.split('_')[1];
+          let cmp = id.split('_')[2];
+          app.updateComponentStatus(agentid,cmp,{cmd:"stream",cmp:cmp,value:sel.options[sel.selectedIndex].value})
+      })
+    streams.forEach((str)=>{
+        let opt = document.createElement("option");
+        opt.value = str.id;
+        opt.innerHTML = str.id;
+        sel.appendChild(opt);
+      });
+  })
+},2000);
+
+</script>
+
+</body>
+</html>

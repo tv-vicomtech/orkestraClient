@@ -1,0 +1,62 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<orkestra-ui style="height:50%">
+<x-media id="video1" type="video" input="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"></x-media>
+<x-media id="video2"  type="video" input="http://techslides.com/demos/sample-videos/small.webm"></x-media>
+<x-media id="video3" type="video" input="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"></x-media>
+<x-media id="video4"  type="video" input="http://techslides.com/demos/sample-videos/small.webm"></x-media>
+</orkestra-ui>
+<input type="text" id="cmd">
+<button  style="position: absolute;top:0px;left:40px;">Send</button>
+<button  style="position: absolute;top:0px;left:400px">Send2</button>
+
+<script src="/dist/orkestra.umd.js"> </script>
+<script type="module">
+import {Config} from "/src/orkestra/rules/config/explicit.rule.js";
+var app = new OrkestraAPI.Orkestra(
+    {url:'https://devstage.traction-project.eu/',
+    debug:false,
+    agentid:OrkestraAPI.URI.getUrlVar('agent'),
+    channel:'or2kestralib',
+    privateChannel:false,
+    profile:'admin',
+    master:true});
+app.use(OrkestraAPI.Explicit,Config);
+app.use(OrkestraAPI.UserPref,{});
+app.ui(OrkestraAPI.Divided);
+app.ui().useLayout("Divided");
+function sendCmd(){
+   
+    app.updateComponentStatus("me","video2",{cmd:"show",cmp:"video2",value:true});
+}
+function sendCmd2(){
+   
+   app.updateComponentStatus("me","video2",{cmd:"show",cmp:"video2",value:false});
+}
+document.querySelectorAll('button').forEach((b,i)=>{
+    if (i==0) b.addEventListener('click',sendCmd);
+    else b.addEventListener('click',sendCmd2);
+})
+</script>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+    <template>
+        <orkestra-ui style="height:50%">
+            <x-media id="video1" type="video" input="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></x-media>
+            <x-media id="video2"  type="video" input="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"></x-media>
+            
+        </orkestra-ui>
+        <script>
+var app = new OrkestraAPI.Orkestra({url:'https://cloud.flexcontrol.net/',debug:false,agentid:OrkestraAPI.URI.getUrlVar('agent'),channel:'orkestralib',privateChannel:true,profile:'admin',master:true});
+app.use(OrkestraAPI.Explicit,{});
+app.ui(OrkestraAPI.Divided);
+
+        
+    </script>
+        </template>
+</code-sample>

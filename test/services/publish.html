@@ -1,0 +1,72 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+
+<button onclick="sendPose()" style="position: absolute;">Send</button>
+
+<script src="/dist/orkestra.umd.js"> </script>
+
+<script>
+
+var app = new OrkestraAPI.Orkestra(
+    {url:'https://cloud.flexcontrol.net/',
+    debug:false,
+    channel:'',
+    privateChannel:false,
+    profile:'service',
+    master:false});
+document.body.innerHTML += "<p> Getting session at iamodel serviceHub</p>";
+app.useServiceHub("iamodelVic").then(()=>{
+  document.body.innerHTML += "<p> Publishing faceDetection service</p>";
+  app.publishService("faceDetection");
+  app.subscribeToService('faceDetection',(evt)=>{
+    console.log(evt);
+    document.body.innerHTML += "<p> Receiving faceDetection INPUT"+JSON.stringify(evt)+"</p>";
+  },"in");
+})
+function sendPose(){
+
+  let data = {
+    io: "out",
+    timestamp:new Date().getTime(),
+    facePose:[1,2,34]
+  }
+  document.body.innerHTML += "<p> Sending faceDetection OUPUT"+JSON.stringify(data)+"</p>";
+  app.sendServiceData('faceDetection',data);
+}
+</script>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+    <template>
+        <script>
+        var app = new OrkestraAPI.Orkestra(
+            {url:'https://cloud.flexcontrol.net/',
+            debug:false,
+            channel:'test',
+            privateChannel:false,
+            profile:'debugger',
+            master:false});
+        app.useServiceHub("iamodelVicx").then(()=>{
+            app.publishService("faceDetection");
+            app.subscribeToService('faceDetection',(evt)=>{
+                console.log(evt);
+                document.body.innerHTML += "<p> Receiving faceDetection INPUT"+JSON.stringify(evt)+"</p>";
+            },"in");
+        })
+        function sendPose(){
+
+            let data = {
+              io: "out",
+              timestamp:new Date().getTime(),
+              facePose:[1,2,34]
+            }
+            document.body.innerHTML += "<p> Sending faceDetection OUPUT"+JSON.stringify(data)+"</p>";
+            app.sendServiceData('faceDetection',data);
+        }
+    </script>
+        </template>
+</code-sample>

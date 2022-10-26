@@ -1,0 +1,37 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<script type="module" src="https://kcmr.github.io/code-sample/node_modules/@kuscamara/code-sample/code-sample.js"></script>
+<script src="/dist/orkestra.umd.js"> </script>
+<link rel="stylesheet" href="/dist/bundle.css"></link>
+<orkestra-ui>
+    <x-media id="v1" class="xmedia" type="webrtc" input="test" config='{"janusServer":"cloud.flexcontrol.net","muted":"true","profile":"low"}'></x-media>
+    <x-media id="v2" type="video" input="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" config='{"muted":"true"}'></x-media>
+    <x-media id="v3" type="image" input="https://www.vicomtech.org/dist/img/logo.svg" config='{"muted":"true"}'></x-media>
+    <x-media id="v4" type="image" input="https://upload.wikimedia.org/wikipedia/commons/f/f5/Computer-screen-code-glitch-animation-gif-background-free.gif" ></x-media>
+    <x-media id="v5" type="video" input="https://d2pjmukh9qywdn.cloudfront.net/upload/transcoded/678916bb-2599-4239-8869-08b61e5dafb0.mpd" config='{"muted":"false","profile":"low","autoplay":"false"}'></x-media>
+</orkestra-ui>
+
+<script>
+let app = new OrkestraAPI.Orkestra({url:"https://cloud.flexcontrol.net/",channel:"xxx"});
+app.ui(OrkestraAPI.Divided);
+
+/*app.addDebugger();*/
+</script>
+<code-sample style="position:absolute;top:0%;left:75%;z-index:999">
+    <template>
+        <orkestra-ui>
+            <x-media id="v1" class="xmedia" type="webrtc" input="test" config='{"janusServer":"cloud.flexcontrol.net","muted":"true","profile":"low"}'></x-media>
+            <x-media id="v2" type="video" input="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" config='{"muted":"true"}'></x-media>
+            <x-media id="v3" type="image" input="https://www.vicomtech.org/dist/img/logo.svg" config='{"muted":"true"}'></x-media>
+            <x-media id="v4" type="image" input="https://d2pjmukh9qywdn.cloudfront.net/upload/transcoded/678916bb-2599-4239-8869-08b61e5dafb0.mpd" config='{"muted":"true","profile":"low"}'></x-media>
+        </orkestra-ui>
+       <script>
+        let app = new OrkestraAPI.Orkestra({url:"https://cloud.flexcontrol.net/",channel:"xxx"});
+        app.ui(OrkestraAPI.Tabs);
+    </script>
+
+    </template>
+</code-sample>

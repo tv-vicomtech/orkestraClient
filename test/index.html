@@ -1,0 +1,126 @@
+<!-- << Copyright 2022 Iñigo Tamayo Uria, Ana Domínguez Fanlo, Mikel Joseba Zorrilla Berasategui, Héctor Rivas Pagador, Sergio Cabrero Barros, Juan Felipe Mogollón Rodríguez and Stefano Masneri. >>
+This file is part of Orkestralib.
+Orkestralib is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Orkestralib is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License along with Orkestralib. If not, see <https://www.gnu.org/licenses/>. -->
+<link rel="stylesheet" href="https://htmlg.com/editor.css">
+<h1 style="color: #4485b8; text-align: center;">OrkestraLib Test page</h1>
+<p style="width:40%;margin-left:20%;"><strong style="color: #000;">Basic usage:</strong> Given the complexity of the tool, we have split a basic functionality on different test, in order to develop and&nbsp; found errors easier. Those are some testing pages available, hope we will add more soon:</p>
+<p></p>
+<table class="editorDemoTable" style="margin-left:20%;vertical-align: top;">
+<thead>
+<tr style="height: 23px;">
+<td style="height: 23px; width: 140px;">Test</td>
+<td style="height: 23px; width: 389px;">Description&nbsp;</td>
+<td style="height: 23px; width: 317px;">Url</td>
+</tr>
+</thead>
+<tbody>
+<tr style="height: 45px;">
+<td style="min-width: 140px; height: 45px; width: 140px;"><b>Example</b></td>
+<td style="height: 45px; width: 389px;">Some example where orkestraLib could be interesting:</td>
+<td style="height: 45px; width: 317px;">
+<p> Examples:<a href="/test/example" title="/test/example">https://localhost:8080/test/example</a></p>
+</tr>
+
+<tr style="height: 45px;">
+<td style="min-width: 140px; height: 45px; width: 140px;"><b>Layout Test</b></td>
+<td style="height: 45px; width: 389px;">In order to test a developed layout, it can be used to see is working as we expect.</td>
+<td style="height: 45px; width: 317px;">
+<a href="/test/ui" title="/test/ui">All UI tests</a></p>
+<p> Simple layout example:
+<a href="/test/ui/layout.html" title="/test/ui/layout.html">https://localhost:8080/test/ui/layout.html</a></p>
+<p style="height: 45px; width: 389px;">In order to test a developed layout for fullscreen</p>
+<o style="height: 45px; width: 317px;"><a href="/test/ui/fullscreen.html" title="/test/ui/layout.html">https://localhost:8080/test/ui/fullscreen.html</a></p>
+  <i> For fullscreen layout, it based config file, url must represent each agentid for working, check please src/orkestra/ui/plugins/config/fullscreen.config.js or create your own.</i></td>
+</tr>
+<tr style="height: 95px;">
+<td style="height: 76px; width: 140px;"><b>Components Propagation</b></td>
+<td style="height: 76px; width: 389px;">
+<p>This can be user to evaluate a component distribution rules.</p>
+</td>
+<td style="height: 76px; width: 317px;">
+<p> Simple assignment rule example:
+
+<a href="/test/compDeploy/splitcomponents.html" title="/test/compDeploy/splitcomponents.html">https://localhost:8080/test/compDeploy/splitcomponents.html</a></p>
+Set up Explicit rule <i> For explicit rule, it based config file, url must represent each agentid for working, check please src/orkestra/rules/config/explicit.rule.js or create your own.</i>
+:
+<p style="height: 76px; width: 317px;"><a href="/test/compDeploy/explicit.html?agent=ag1" title="/test/compDeploy/explicit.html?agent=ag1">https://localhost:8080/test/compDeploy/explicit.html?agent=ag1</a></p>
+And send user cmds:
+<p style="height: 76px; width: 317px;"><a href="/test/compDeploy/controller.html?agent=ag2" title="/test/compDeploy/controller.html">https://localhost:8080/test/compDeploy/controller.html</a></p>
+</td>
+</tr>
+<tr style="height: 26px;">
+<td style="height: 26px; width: 140px;"><b>Motion Test</b></td>
+<td style="height: 26px; width: 389px;">Util test to validate a orkestraLib synchronization functionality</td>
+<td style="height: 26px; width: 317px;">
+<p><strong>Multimedia sync:</strong></p>
+<p><a href="/test/motion/multimediaSync.html" title="/test/motion/multimediaSync.html">https://localhost:8080/test/motion/multimediaSync.html</a></p>
+<p><strong>Object Sync:</strong></p>
+<p><a href="/test/motion/objectSync.html" title="/test/motion/objectSync.html">https://localhost:8080/test/motion/objectSync.html</a></p>
+</td>
+</tr>
+<tr style="height: 83px;">
+<td style="height: 83px; width: 140px;"><b>WebRtc Test</b></td>
+<td style="height: 83px; width: 389px;">There are some test to evaluate a webrtc implementation of orkestraLib, based on janusGW.</td>
+<td style="height: 83px; width: 317px;">
+<p><strong>Publish stream:</strong></p>
+<p><a href="/test/janus/publish.html" title="/test/janus/publish.html">https://localhost:8080/test/janus/publish.html</a></p>
+<p><strong>Consume stream:</strong></p>
+<p><a href="/test/janus/client.html" title="/test/janus/client.html">https://localhost:8080/test/janus/client.html</a></p>
+<p><strong>Publisher webcomponent:</strong></p>
+<p><a href="/test/janus/wctest.html" title="/test/janus/wctest.html">https://localhost:8080/test/janus/wctest.html</a></p>
+<p><strong>ScreenShare webcomponent:</strong></p>
+<p><a href="/test/janus/screen-shareTest.html" title="/test/janus/screen-shareTest.html">https://localhost:8080/test/janus/screen-shareTest.html</a></p>
+</td>
+</tr>
+<tr>
+<td style="width: 140px;"><b>XMedia Test</b></td>
+<td style="width: 389px;">
+<p>Test a webcomponents responsible of the orkestraLib multimedia consume.</p>
+</td>
+<td style="width: 317px;">
+    <p><a href="/test/xmedia/index.html" title="/test/janus/client.html">https://localhost:8080/test/xmedia</a></p>
+    <p><strong>MpegDash Test webcomponent:</strong></p>
+<p><a href="/test/xmedia/dash.html" title="/test/xmedia/dash.html">https://localhost:8080/test/media/dash.html</a></p>
+<p><a href="/test/xmedia/dash-2.html" title="/test/xmedia/dash-2.html">https://localhost:8080/test/media/dash-2.html</a></p>
+</td>
+</tr>
+<tr style="height: 274px;">
+<td valign="top" style="height: 161px; width: 140px;"><b>User &amp; App Data Monitoring</b></td>
+<td style="height: 161px; width: 389px;">
+<p>This type of application must have some monitoring tool that allow to know the state of the shared data all the time, in order to control and understand that behind functionality. In this sense, orkestraLib offers a monitoring tool of user &amp; app data of the each session.</p>
+</td>
+<td style="height: 161px; width: 317px;">
+    <p><a href="/test/context/monitor.html?session=testsession" title="/test/janus/client.html">https://localhost:8080/test/context/monitor.html</a></p>
+</td>
+</tr>
+<tr style="height: 274px;">
+    <td valign="top" style="height: 161px; width: 140px;"><b>User context and Instruments</b></td>
+    <td style="height: 161px; width: 389px;">
+    <p> This test want demostrate how to use instruments and agent context.</p>
+    </td>
+    <td style="height: 161px; width: 317px;">
+        <p><a href="/test/instruments/agentContext.html" title="/test/janus/client.html">https://localhost:8080//test/instruments/agentContext.html</a></p>
+    </td>
+    </tr>
+    <tr style="height: 274px;">
+        <td valign="top" style="height: 161px; width: 140px;"><b>Service Hub tests</b></td>
+        <td style="height: 161px; width: 389px;">
+        <p> Test to run publish and consume services using orkestraLib event bus</p>
+        </td>
+        <td style="height: 161px; width: 317px;">
+            <p><a href="/test/services/" title="/test/services/">https://localhost:8080//test/services</a></p>
+        </td>
+        </tr>
+    <tr style="height: 274px;">
+        <td valign="top" style="height: 161px; width: 140px;"><b>Private session tests</b></td>
+        <td style="height: 161px; width: 389px;">
+        <p> This test want demostrate how to use private sessions.</p>
+        </td>
+        <td style="height: 161px; width: 317px;">
+            <p><a href="/test/privateSession/" title="/test/privateSession/">https://localhost:8080//test/privateSession</a></p>
+        </td>
+        </tr>
+</tbody>
+</table>
